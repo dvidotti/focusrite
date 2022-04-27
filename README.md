@@ -8,7 +8,7 @@
 
 ### Clone this repo. 
 
-```git clone https://github.com/dvidotti/focusrite.git```
+```git clone -b final-version https://github.com/dvidotti/focusrite.git```
 
 ### Install packages by running the following command in the root folder
 
