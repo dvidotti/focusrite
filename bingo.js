@@ -1,27 +1,47 @@
-const numbers = [7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1]
-
-const card = [
-    [22 ,13 ,17 ,11 , 0],
-    [ 8 ,2, 23, 4, 24],
-    [21 ,9, 14 ,16,  7],
-    [6, 10,  3, 18,  5],
-    [1,12,20, 15, 19]
-]
-
 
 function checkBingo(numbers, card) {
+    // Fail fast if no numbers or card are provided
     if(numbers.length === 0 || card.length === 0) return false
+
+    let isCardWinner= false
+    
+    function checkCombination(combination) {
+        if(combination.every((number) => numbers.includes(number))) {
+            isCardWinner = true;
+        }
+    }
+
+    let i = 0;
+    while (i < card.length && !isCardWinner) {
+        // Checking row
+        checkCombination(card[i])
+        let column = card.map(item => item[i])
+        checkCombination(column)
+        i += 1
+    }
+
+    return isCardWinner;
+}
+
+
+function findWinnerCard(numbers, deckOfCards) {
     let result = false;
+    let winnerCard = [];
+    let numberCallList = []
 
-    card.forEach(row => {
-        // console.log("ROW", row)
-        result = row.every((number) => numbers.includes(number))
-        if(result) return;
-    })
-
-    // let column = card.map(i => i[])
+    let i = 0
+    while (winnerCard.length === 0 && i < numbers.length) {
+        numberCallList.push(numbers[i])
+        deckOfCards.forEach((card, idx) => {
+            if(checkBingo(numberCallList,card)) {
+                result = idx + 1
+            }
+        })
+        i += 1
+    }
 
     return result;
 }
 
-module.exports = checkBingo
+
+module.exports = { checkBingo, findWinnerCard }
